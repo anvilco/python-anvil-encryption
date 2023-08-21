@@ -1,7 +1,7 @@
 
 MIT License
 
-Copyright &copy; 2022, Allan Almazan
+Copyright &copy; 2023, www.useanvil.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
