@@ -1,6 +1,5 @@
 import base64
 import os
-
 from typing import AnyStr
 
 from cryptography.hazmat.primitives import hashes
@@ -65,7 +64,7 @@ def decrypt_rsa(raw_private_key: AnyStr, message: AnyStr):
     private_key = serialization.load_pem_private_key(raw_private_key, password=None)
     index = message.index(b":")
     enc_aes_key = message[:index]
-    encrypted_message = message[index + 1:]
+    encrypted_message = message[index + 1 :]
 
     aes_key = private_key.decrypt(
         base64.b64decode(enc_aes_key),

@@ -1,8 +1,9 @@
 """Unit tests configuration file."""
-import os
 import json
-import pytest
+import os
+
 import log
+import pytest
 
 FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -27,7 +28,9 @@ def _get_data_file(file_path, is_json=False):
 
 @pytest.fixture
 def forge_complete_payload():
-    return _get_data_file(os.path.join(FILE_DIR, "data", "aa_forge_complete_payload.json"), is_json=True)
+    return _get_data_file(
+        os.path.join(FILE_DIR, "data", "aa_forge_complete_payload.json"), is_json=True
+    )
 
 
 @pytest.fixture

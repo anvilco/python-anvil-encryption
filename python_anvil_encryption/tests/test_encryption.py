@@ -1,5 +1,6 @@
 """Tests for encryption module."""
 import json
+
 import pytest
 
 from python_anvil_encryption import encryption
@@ -53,11 +54,7 @@ def describe_encryption():
             message = b"some message"
 
             def func():
-                encryption.encrypt_rsa(
-                    public_key,
-                    message,
-                    auto_padding=False
-                )
+                encryption.encrypt_rsa(public_key, message, auto_padding=False)
 
             with pytest.raises(ValueError):
                 func()
@@ -65,10 +62,6 @@ def describe_encryption():
         def test_encrypt_bytes_not_padded_ok(public_key):
             # This message will not get padded, but meets the length requirement.
             message = b"some message1111"
-            res = encryption.encrypt_rsa(
-                public_key,
-                message,
-                auto_padding=False
-            )
+            res = encryption.encrypt_rsa(public_key, message, auto_padding=False)
             splits = res.split(b":")
             assert len(splits) == 3
