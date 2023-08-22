@@ -4,7 +4,7 @@
 import pytest
 from click.testing import CliRunner
 
-from python_anvil_encryption.cli import main
+# from python_anvil_encryption.cli import main
 
 
 @pytest.fixture

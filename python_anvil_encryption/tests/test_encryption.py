@@ -1,4 +1,5 @@
 """Tests for encryption module."""
+# pylint: disable=redefined-outer-name,unused-variable,expression-not-assigned
 import json
 
 import pytest

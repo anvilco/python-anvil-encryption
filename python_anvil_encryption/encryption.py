@@ -5,7 +5,7 @@ from typing import AnyStr
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import padding as sym_padding
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 IV_LENGTH = 16
@@ -29,7 +29,9 @@ def encrypt_rsa(raw_public_key: bytes, message: bytes, auto_padding=True) -> byt
         which is '<rsaEncryptedAESKey:aesIV:aesEncryptedMessage>'
     :rtype: bytes
     """
-    public_key = serialization.load_pem_public_key(raw_public_key)
+    public_key = serialization.load_pem_public_key(
+        raw_public_key
+    )  # type: rsa.RSAPublicKey  # type: ignore
     aes_key = os.urandom(AES_KEY_LENGTH)
     encrypted_aes_key = public_key.encrypt(
         aes_key.hex().encode(),
@@ -46,8 +48,10 @@ def encrypt_rsa(raw_public_key: bytes, message: bytes, auto_padding=True) -> byt
     return b":".join([b64_aes_key, enc_message])
 
 
-def decrypt_rsa(raw_private_key: AnyStr, message: AnyStr):
+def decrypt_rsa(_raw_private_key: AnyStr, _message: AnyStr):
     """
+    Decrypt with RSA.
+
     :param raw_private_key:
     :type raw_private_key: AnyStr
     :param message:
@@ -55,13 +59,19 @@ def decrypt_rsa(raw_private_key: AnyStr, message: AnyStr):
     :return:
     :rtype:
     """
-    if isinstance(message, str):
-        message = bytes(message, DEFAULT_ENCODING)
+    if isinstance(_message, str):
+        message = bytes(_message, DEFAULT_ENCODING)
+    else:
+        message = _message
 
-    if isinstance(raw_private_key, str):
-        raw_private_key = bytes(raw_private_key, DEFAULT_ENCODING)
+    if isinstance(_raw_private_key, str):
+        raw_private_key = bytes(_raw_private_key, DEFAULT_ENCODING)
+    else:
+        raw_private_key = _raw_private_key
 
-    private_key = serialization.load_pem_private_key(raw_private_key, password=None)
+    private_key = serialization.load_pem_private_key(
+        raw_private_key, password=None
+    )  # type: rsa.RSAPrivateKey  # type: ignore
     index = message.index(b":")
     enc_aes_key = message[:index]
     encrypted_message = message[index + 1 :]
@@ -80,7 +90,8 @@ def decrypt_rsa(raw_private_key: AnyStr, message: AnyStr):
 
 def encrypt_aes(aes_key: bytes, message: bytes, auto_padding=True) -> bytes:
     """
-    Encrypt with AES
+    Encrypt with AES.
+
     :param aes_key:
     :type aes_key:
     :param message:
@@ -108,6 +119,8 @@ def encrypt_aes(aes_key: bytes, message: bytes, auto_padding=True) -> bytes:
 
 def decrypt_aes(aes_key: bytes, encrypted_message: bytes):
     """
+    Decrypt with AES.
+
     :param aes_key:
     :type aes_key:
     :param encrypted_message:

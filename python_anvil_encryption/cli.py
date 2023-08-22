@@ -6,7 +6,7 @@ import log
 
 @click.command()
 @click.argument("feet")
-def main(feet: str):
+def main():
     log.init()
 
 
