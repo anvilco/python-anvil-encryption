@@ -14,6 +14,10 @@ PADDING_SIZE = 128
 DEFAULT_ENCODING = "utf-8"
 
 
+def generate_aes_key():
+    return os.urandom(AES_KEY_LENGTH)
+
+
 def encrypt_rsa(raw_public_key: bytes, message: bytes, auto_padding=True) -> bytes:
     """
     Encrypt with RSA.
@@ -25,6 +29,8 @@ def encrypt_rsa(raw_public_key: bytes, message: bytes, auto_padding=True) -> byt
     :type raw_public_key:  bytes
     :param message:
     :type message: bytes
+    :param auto_padding:
+    :type auto_padding: bool
     :return: Returns a `string` like 'abcdef:abcdef:abcdef'
         which is '<rsaEncryptedAESKey:aesIV:aesEncryptedMessage>'
     :rtype: bytes

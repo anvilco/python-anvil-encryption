@@ -8,6 +8,10 @@ from python_anvil_encryption import encryption
 
 
 def describe_encryption():
+    def describe_generate_aes_key():
+        aes_key = encryption.generate_aes_key()
+        assert aes_key
+
     def describe_decrypt_rsa():
         def test_decrypt_real_test_data_bytes(forge_complete_payload, private_key):
             data = forge_complete_payload.get("data")
@@ -66,3 +70,14 @@ def describe_encryption():
             res = encryption.encrypt_rsa(public_key, message, auto_padding=False)
             splits = res.split(b":")
             assert len(splits) == 3
+
+    def describe_encrypt_aes():
+        message = b"Secret message"
+        aes_key = encryption.generate_aes_key()
+        aes_encrypted_message = encryption.encrypt_aes(aes_key, message)
+        # The aes key in the first parameter is required to be in a hex
+        # byte string format.
+        decrypted_message = encryption.decrypt_aes(
+            aes_key.hex().encode(), aes_encrypted_message
+        )
+        assert decrypted_message == message
