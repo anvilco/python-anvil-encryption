@@ -36,12 +36,10 @@ $(DEPENDENCIES): poetry.lock
 	@ rm -rf ~/Library/Preferences/pypoetry
 	@ poetry config virtualenvs.in-project true
 	poetry install
-	@ touch $@
 
 ifndef CI
 poetry.lock: pyproject.toml
 	poetry lock --no-update
-	@ touch $@
 endif
 
 .cache:
